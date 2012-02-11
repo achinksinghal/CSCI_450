@@ -1,0 +1,55 @@
+++Name: 	ACHINTYA SINGHAL
+++Student Id: 	4414-3387-71
+
+++The objective of this project is to simulate an instant messaging system in which user is first authenticated at Login server, then user can exchange text messages with other users using Supernode. TCP and UDP sockets are used for sending messages. 
+
+++Code Files:
+
+login.cc: This file contains the code for login server. Server gets login request from the user. It authenticates that request by comparing the username and password given by user with the username and password stored in his file. If that matches, it then forwards the supernode ip address and port number to user. After getting requests from all users, server sends sends the ip address and username of each user to the supernode.
+
+supernode.cc: This file contains the code supernode. Supernode accepts the ip address and username of users from the server. It then the receives text messages from the users for some defined user. Supernode directs those messages to the that defined user.
+
+user1.cc / user2.cc /user3.cc: This files contains the code for user#1, 2 and 3 respectively. User first sends login request to server, after accpetance from the server. It accepts  ip address and port number of supernode from the server. It then starts sending messages to different users using supernode.
+
+
+++What to do for running:
+
+After doing gunzip and untar on my tar file.
+Run following commands in the different terminals as specified:
+make all 		(on terminal 1, for compiling all files)
+./login			(on terminal 1, for starting login server)
+./supernode		(on terminal 2, for starting supernode)
+./user1			(on terminal 3, within 10 seconds after the start of supernode, for starting user#1)		
+./user2			(on terminal 4, within 10 seconds after the start of supernode, for starting user#2)		
+./user3			(on terminal 5, within 10 seconds after the start of supernode, for starting user#3)		
+
+++Message formats:
+
+1. For sending messages login request from user to server, message format used is:
+
+	Login#<username> <password>
+	where username is the username of the user and password is the passowrd of user.
+
+2. If the server accepts the user as a valid user, then server sends:
+	Accepted#<supernodeip> <supernodeport>
+	where supernodeip is the ip address of supernode and supernodeport is the port number of supernode.
+   or else if the user is not a valid user, then server sends
+	Rejected#
+
+3. After sending, server sends the username and password of users to supernode in the format:
+	<userip> <userusername>
+	where userip is the ip address of the user and userusername is the username of user.
+
+4. User send text messages to the supernode in the message format:
+	<touser>-<fromuser>:<message>
+	where touser is user to which message is be sent, from user is the username of user which is sending the message and message is the message needed to sent.
+
+5. Message received from the user, sent to the designated user using the format:
+	<fromuser>:<message>
+	where from user is the username of user which is sending the message and message is the message needed to sent.
+
+++Code reference:
+	Code is reffered from the beej tutorial:
+	http://www.beej.us/guide/bgnet/
+	and 
+	http://www.beej.us/guide/bgc/
